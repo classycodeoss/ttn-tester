@@ -1,0 +1,28 @@
+@startuml
+title TTN Tester application state diagram
+[*]  --> connecting
+connecting --> error: no connection
+state error #yellow
+error: await retry timer elapsed
+error --> connecting: retry
+connecting --> readyForPing: connected
+state readyForPing #lightgreen
+readyForPing: ready to receive uplink ping\nfrom node via known gatewayEUI
+readyForPing --> pongDownlinkScheduled: uplink ping via known gatewayEUI
+
+pongDownlinkScheduled: downlink pong message waiting to be received by node\nawait TTN sent event
+pongDownlinkScheduled --> pongSent: TTN downlink sent event\ndownlink over known gatewayEUI
+
+pongSent: downlink over known gatewayEUI
+pongSent -down-> successDownlinkScheduled: success downlink scheduled
+
+successDownlinkScheduled: downlink success message waiting to be received by node\nawait TTN sent event
+successDownlinkScheduled -down-> successSent: TTN downlink sent event\ndownlink over known gatewayEUI
+
+state successSent #lightblue
+successSent: ping / pong finished successfully
+
+timer: interval 2h 30min
+note left: implicit error transition\nfrom every other state to this state\ntimer executes transition once timer elapsed
+timer --> readyForPing: timer elapsed
+@enduml

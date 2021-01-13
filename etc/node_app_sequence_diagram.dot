@@ -1,0 +1,77 @@
+@startuml
+!pragma teoz true
+title TTN Tester sequence diagram
+autonumber
+boundary "node"
+control "TTN data API"
+entity "application"
+
+
+node -> "TTN data API": sendUplink("PING")
+activate node
+activate "TTN data API"
+activate application
+"TTN data API" -> application: onUplink("PING", uplinkMeta)
+note bottom: uplinkMeta: List<gatewayEUI> received uplink from node
+deactivate "TTN data API"
+node -> node: receiveDownlink()
+deactivate node
+alt uplinkMeta contains known gatewayEUI
+activate "TTN data API"
+application -> "TTN data API": scheduleDownlink("PONG", date)
+note bottom: received ping from node, check 'uplinkMeta' for matching gatewayEUI\nhas the ping been received by known gatewayEUI
+application -> application: setState(pongDownlinkScheduled)
+end
+deactivate application
+deactivate "TTN data API"
+
+
+node -> "TTN data API": sendUplink("PING")
+activate node
+activate "TTN data API"
+activate application
+"TTN data API" -> application: onUplink("PING", uplinkMeta)
+node -> node: receiveDownlink()
+"TTN data API" --> node: downlinkMessage(date)
+node --> node: displayPong(date)
+deactivate node
+"TTN data API" --> application: onDownlinkSent(downlinkMeta)
+note bottom: downlinkMeta: single gatewayEUI that sent the downlink message
+alt downlinkMeta is known gatewayEUI
+application -> application: setState(pongSent)
+application -> "TTN data API": scheduleDownlink("SUCC", date)
+application -> application: setState(successDownlinkScheduled)
+end
+deactivate "TTN data API"
+deactivate application
+
+
+node -> "TTN data API": sendUplink("PING")
+activate node
+activate "TTN data API"
+activate application
+"TTN data API" -> application: onUplink("PING", uplinkMeta)
+node -> node: receiveDownlink()
+"TTN data API" --> node: downlinkMessage(date)
+node --> node: displaySuccess(date)
+deactivate node
+"TTN data API" --> application: onDownlinkSent(downlinkMeta)
+note bottom: downlinkMeta: single gatewayEUI that sent the downlink message
+alt downlinkMeta is known gatewayEUI
+application -> application: setState(successSent)
+end
+deactivate application
+deactivate "TTN data API"
+
+activate "TTN data API"
+activate application
+deactivate "TTN data API"
+activate application
+...application idle - no replies to PINGS - awaiting timer interval of 2h 15min...
+timer --> timer: <2h30min interval elapsed>
+activate timer
+timer --> application: setState(readyForPing)
+deactivate application
+deactivate timer
+
+@enduml
