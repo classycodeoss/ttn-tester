@@ -10,7 +10,7 @@ https://blog.classycode.com/ttn-tester
 ## Step by step instructions - starting the backend TTN application
 ### 1 - Backend configuration
 The java application takes input from the following java properties:
-#### appId
+#### ttn.appId
 the TTN application ID obtained from the TTN console
 
 #### ttn.region
