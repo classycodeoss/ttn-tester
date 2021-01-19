@@ -5,7 +5,7 @@ Backend acts as TTN application, replies to uplink node PING with downlink PONG.
 A completed PING - PONG sequence represents a full test of both transmission directions of the TTN gateway.
 
 For details, see our blog post:
-https://blog.classycode.com/ttn-tester
+https://blog.classycode.com/is-your-ttn-gateway-really-working-correctly-ttnt-the-things-network-tester-lets-you-know-d0f46124a6f3
 
 ## Step by step instructions - starting the backend TTN application
 ### 1 - Backend configuration
