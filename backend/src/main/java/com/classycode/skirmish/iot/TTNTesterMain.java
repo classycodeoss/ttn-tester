@@ -9,13 +9,14 @@ public class TTNTesterMain {
     private static final Logger LOGGER = Logger.getLogger(TTNTesterMain.class.getSimpleName());
 
     public static void main(String[] args) throws Exception {
-        final String region = System.getenv("region");
-        final String appId = System.getenv("appId");
-        final String accessKey = System.getenv("accessKey");
-        final String gatewayEUI = System.getenv("gatewayEUI");
-        final String enableConfirmation = System.getenv("enableConfirmation");
+
+        final String region = System.getProperty("region");
+        final String appId = System.getProperty("appId");
+        final String accessKey = System.getProperty("accessKey");
+        final String gatewayEUI = System.getProperty("gatewayEUI");
+        final String enableConfirmation = System.getProperty("enableConfirmation");
         if (region == null || appId == null || accessKey == null || gatewayEUI == null) {
-            LOGGER.severe("set environment variables (region, appId, accessKey, gatewayEUI)! exiting");
+            LOGGER.severe("set java -D properties  (region, appId, accessKey, gatewayEUI)! exiting");
             System.exit(-1);
         }
         final Config config = new Config(region, appId, accessKey, gatewayEUI, enableConfirmation);
