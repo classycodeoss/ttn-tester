@@ -13,16 +13,16 @@ The java application takes input from the following java properties:
 #### appId
 the TTN application ID obtained from the TTN console
 
-#### region
+#### ttn.region
 e.g. 'eu' for europe
 
-#### accessKey
+#### ttn.accessKey
 the application access key obtained from the TTN console
 
-#### gatewayEUI
+#### ttn.gatewayEUI
 the EUI of the TTN gateway under test e.g. 'eui-b827ebfffe4ad9d9'
 
-#### enableConfirmation
+#### ttn.enableConfirmation
 this environment variable is optional, if set to 'true' the downlink messages are sent 
 with the confirmation flag set to true thus the node has to confirm downlink reception;
 this will result in MQTT messages in the 'down/acks' topic; if this flag is active a state 
@@ -39,7 +39,7 @@ creates a JAR file: ./build/libs/ttn-echo-backend-1.0-SNAPSHOT-all.jar
 ### 3 - Execution
 The created JAR can be executed in shell providing java properties (described above):
 ```shell script
-java -DenableConfirmation="true" -DappId="deadbeefdeadbeef" -DaccessKey="ttn-account-v2.****" -DgatewayEUI="eui-b827ebfffe4ad9d9" -Dregion="eu" -jar ./build/libs/ttn-echo-backend-1.0-SNAPSHOT-all.jar
+java -Dttn.enableConfirmation="true" -Dttn.appId="deadbeefdeadbeef" -Dttn.accessKey="ttn-account-v2.****" -Dttn.gatewayEUI="eui-b827ebfffe4ad9d9" -Dttn.region="eu" -jar ./build/libs/ttn-echo-backend-1.0-SNAPSHOT-all.jar
 ```
 
 ## Step by step instructions - starting the node TTN device

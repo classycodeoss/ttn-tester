@@ -10,13 +10,13 @@ public class TTNTesterMain {
 
     public static void main(String[] args) throws Exception {
 
-        final String region = System.getProperty("region");
-        final String appId = System.getProperty("appId");
-        final String accessKey = System.getProperty("accessKey");
-        final String gatewayEUI = System.getProperty("gatewayEUI");
-        final String enableConfirmation = System.getProperty("enableConfirmation");
+        final String region = System.getProperty("ttn.region");
+        final String appId = System.getProperty("ttn.appId");
+        final String accessKey = System.getProperty("ttn.accessKey");
+        final String gatewayEUI = System.getProperty("ttn.gatewayEUI");
+        final String enableConfirmation = System.getProperty("ttn.enableConfirmation");
         if (region == null || appId == null || accessKey == null || gatewayEUI == null) {
-            LOGGER.severe("set java -D properties  (region, appId, accessKey, gatewayEUI)! exiting");
+            LOGGER.severe("set java -D properties  (ttn.region, ttn.appId, ttn.accessKey, ttn.gatewayEUI)! exiting");
             System.exit(-1);
         }
         final Config config = new Config(region, appId, accessKey, gatewayEUI, enableConfirmation);
